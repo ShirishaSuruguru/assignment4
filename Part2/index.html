@@ -1,0 +1,33 @@
+<html>
+<body>
+    <label>Enter the following details</label><br>
+    <label>Username: <input type="text" id="username"></label><br><br>
+    <label>Message: <input type="text" id="message"></label><br><br>
+    <button onclick="postData()">Submit</button><br>
+    <script>
+        //function to get data from messages.php
+        function getMessage() {
+            fetch('./messages.php', { method: 'get' })
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("display").innerHTML = data;
+                });
+        }
+        //posting the data from input.php
+        function postData() {
+            let user =  document.getElementById("username").value;
+            let msg =  document.getElementById("message").value;
+
+            let formData = new FormData();
+            formData.append('username', user);
+            formData.append('message', msg);
+
+            fetch('./input.php', { method: 'post', body: formData});
+        }
+
+        setInterval(getMessage, 1000);
+    </script>
+    <h4>Message Box</h4>
+    <div id="display"></div>
+</body>
+</html>
